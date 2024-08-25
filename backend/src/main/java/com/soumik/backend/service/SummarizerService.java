@@ -1,19 +1,26 @@
 package com.soumik.backend.service;
 
 import com.soumik.backend.bean.SummaryResponse;
+import com.soumik.summarizer.DatabaseService;
+import com.soumik.summarizer.Summarizer;
 import org.springframework.stereotype.Service;
+import scala.collection.JavaConverters;
 
-import java.util.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SummarizerService {
+
+    private final Summarizer summarizer = new Summarizer();
+
     public String getSummary(String url) {
-        // TODO: Call the Scala service here
-        return "This is a summary";
+        return summarizer.summarizeContent(url);
     }
 
     public List<SummaryResponse> getHistory() {
-        // TODO: Fetch history from DB
-        return new ArrayList<SummaryResponse>();
+        return JavaConverters.asJavaCollection(DatabaseService.getRequestHistory()).stream()
+                .map(record -> new SummaryResponse(record._1, record._2))
+                .collect(Collectors.toList());
     }
 }

@@ -19,7 +19,7 @@ public class SummarizerController {
     @PostMapping("/summarize")
     public ResponseEntity<SummaryResponse>  summariizeURL(@RequestBody SummaryRequest request) {
         String summary = summarizerService.getSummary(request.getUrl());
-        return ResponseEntity.ok(new SummaryResponse(summary));
+        return ResponseEntity.ok(new SummaryResponse(request.getUrl(), summary));
     }
 
     @GetMapping("/history")
