@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const History = () => {
   const [history, setHistory] = useState([]);
@@ -6,7 +7,15 @@ const History = () => {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const response = await fetch("http://localhost:5000/history");
+        const response = await axios.get(
+          `${process.env.REACT_APP_BACKEND_API_URL}/history`,
+          {
+            auth: {
+              username: process.env.REACT_APP_USERNAME,
+              password: process.env.REACT_APP_PASSWORD,
+            },
+          }
+        );
         setHistory(response.data);
       } catch (error) {
         console.error(error);

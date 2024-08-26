@@ -8,9 +8,16 @@ const Home = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/summarize", {
-        url,
-      });
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_API_URL}/summarize`,
+        { url },
+        {
+          auth: {
+            username: process.env.REACT_APP_USERNAME,
+            password: process.env.REACT_APP_PASSWORD,
+          },
+        }
+      );
       setSummary(response.data.summary);
     } catch (error) {
       console.error(error);
@@ -26,7 +33,7 @@ const Home = () => {
         <input
           type="text"
           value={url}
-          onChange={(e) => setUrl(e.target.url)}
+          onChange={(e) => setUrl(e.target.value)}
           placeholder="Enter website URL"
           required
         />

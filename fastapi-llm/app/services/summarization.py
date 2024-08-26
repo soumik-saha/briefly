@@ -54,7 +54,7 @@ def truncate_text(text: str, max_tokens: int) -> str:
 def summarize_text(text: str) -> Optional[str]:
     response = co.generate(
         model='command-light',  # Choose the appropriate model size
-        prompt=f"Summarize the following website:\n\n{text}",
+        prompt=f"Summarize the following website and don't ask any follow-up questions:\n\n{text}",
         max_tokens=250
     )
 
