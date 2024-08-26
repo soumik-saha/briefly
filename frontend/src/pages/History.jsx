@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "./css/styles.css";
 
 const History = () => {
   const [history, setHistory] = useState([]);
@@ -28,13 +29,16 @@ const History = () => {
     <>
       <h1>History</h1>
       <p>View your past summaries here.</p>
-      <ul>
-        {history.map((entry, index) => (
-          <li key={index}>
-            {entry.url}: {entry.summary}
-          </li>
-        ))}
-      </ul>
+      <div className="history">
+        <ul>
+          {history.map((entry, index) => (
+            <li key={index} className="entry">
+              <div className="url">{entry.url}</div>
+              <div className="summary">{entry.summary}</div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </>
   );
 };

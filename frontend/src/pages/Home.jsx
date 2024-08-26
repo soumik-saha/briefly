@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "./css/styles.css";
 
 const Home = () => {
   const [url, setUrl] = useState("");
@@ -25,11 +26,11 @@ const Home = () => {
   };
 
   return (
-    <>
+    <div className="home-container">
       <h1>Briefly</h1>
       <p>Summarize any websites with Briefly.</p>
 
-      <form onSubmit={handleSubmit}>
+      <form className="search-form" onSubmit={handleSubmit}>
         <input
           type="text"
           value={url}
@@ -39,8 +40,13 @@ const Home = () => {
         />
         <button type="submit">Summarize</button>
       </form>
-      {summary && <p>Summary: {summary}</p>}
-    </>
+
+      {summary && (
+        <div className="summary-box">
+          <p>{summary}</p>
+        </div>
+      )}
+    </div>
   );
 };
 
