@@ -17,9 +17,6 @@ class Summarizer {
     // Simulate calling the Python FastAPI service (HTTP call to get summary)
     var summarizedText = callPythonFastAPI(url)
 
-    // Remove the leading and trailing quotes from the response
-    summarizedText = summarizedText.substring(1, summarizedText.length - 1)
-
     // Log the request and summary to the database
     DatabaseService.logRequest(url, summarizedText)
     summarizedText
