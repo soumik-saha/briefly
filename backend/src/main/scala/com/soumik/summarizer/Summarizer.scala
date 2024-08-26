@@ -3,9 +3,14 @@ package com.soumik.summarizer
 import org.springframework.stereotype.Component
 import com.soumik.summarizer.DatabaseService
 import scalaj.http.Http
+import io.github.cdimascio.dotenv.Dotenv
 
 @Component
 class Summarizer {
+
+  // Load environment variables
+  private val dotenv = Dotenv.load()
+  private val apiUrlBase = dotenv.get("API_URL_BASE")
 
   // Summarizes content using the FastAPI LLM service
   def summarizeContent(url: String): String = {
@@ -20,9 +25,9 @@ class Summarizer {
     summarizedText
   }
 
-  // Dummy function simulating an API call to FastAPI
+  // Function to call the FastAPI service
   private def callPythonFastAPI(url: String): String = {
-    val apiUrl = s"http://localhost:8000/summarize?url=$url"
+    val apiUrl = s"$apiUrlBase/summarize?url=$url"
     val response = Http(apiUrl).asString
     if (response.is2xx) {
       response.body

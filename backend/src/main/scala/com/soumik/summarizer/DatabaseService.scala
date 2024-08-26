@@ -2,12 +2,16 @@ package com.soumik.summarizer
 
 import java.sql.{Connection, DriverManager, PreparedStatement, ResultSet}
 import scala.collection.mutable.ListBuffer
+import io.github.cdimascio.dotenv.Dotenv
 
 object DatabaseService {
 
-  private val url = "jdbc:postgresql://localhost:5432/brieflydb"
-  private val username = "postgres"
-  private val password = "root"
+  // Load environment variables
+  private val dotenv = Dotenv.load()
+
+  private val url = dotenv.get("DB_URL")
+  private val username = dotenv.get("DB_USERNAME")
+  private val password = dotenv.get("DB_PASSWORD")
 
   private def connect(): Connection = {
     DriverManager.getConnection(url, username, password)
