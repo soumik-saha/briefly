@@ -4,6 +4,10 @@ import org.springframework.stereotype.Component
 import com.soumik.summarizer.DatabaseService
 import scalaj.http.Http
 import io.github.cdimascio.dotenv.Dotenv
+import scala.collection.mutable
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
+import scalaj.http.HttpOptions
 
 @Component
 class Summarizer {
@@ -12,20 +16,35 @@ class Summarizer {
   private val dotenv = Dotenv.load()
   private val apiUrlBase = dotenv.get("API_URL_BASE")
 
-  // Summarizes content using the FastAPI LLM service
-  def summarizeContent(url: String): String = {
-    // Simulate calling the Python FastAPI service (HTTP call to get summary)
-    var summarizedText = callPythonFastAPI(url)
+  object Cache {
+    private val cache = mutable.Map[String, String]()
 
-    // Log the request and summary to the database
-    DatabaseService.logRequest(url, summarizedText)
-    summarizedText
+    def get(url: String): Option[String] = cache.get(url)
+
+    def put(url: String, summary: String): Unit = {
+      cache.put(url, summary)
+    }
+  }
+
+  def summarizeContent(url: String): String = {
+    Cache.get(url) match {
+      case Some(summary) => summary
+      case None =>
+        val summarizedText = callPythonFastAPI(url)
+        Cache.put(url, summarizedText)
+        DatabaseService.logRequest(url, summarizedText)
+        summarizedText
+    }
   }
 
   // Function to call the FastAPI service
   private def callPythonFastAPI(url: String): String = {
-    val apiUrl = s"$apiUrlBase/summarize?url=$url"
-    val response = Http(apiUrl).asString
+    val apiUrl = s"$apiUrlBase?url=$url"
+    val response = Http(apiUrl)
+      .option(HttpOptions.connTimeout(10000)) // 10 seconds connection timeout
+      .option(HttpOptions.readTimeout(30000)) // 30 seconds read timeout
+      .asString
+
     if (response.is2xx) {
       response.body
     } else {

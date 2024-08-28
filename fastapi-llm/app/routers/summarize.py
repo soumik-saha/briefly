@@ -1,13 +1,14 @@
+import asyncio
 from fastapi import APIRouter, HTTPException
 from app.services.summarization import summarize_url
 
 router = APIRouter()
 
-
 @router.get("/summarize")
 async def get_summary(url: str):
     try:
-        summary = await summarize_url(url)
+        # Set a timeout of 15 seconds for the summarize_url function
+        summary = await asyncio.wait_for(summarize_url(url), timeout=20.0)
 
         # Create a translation table to remove unwanted characters
         unwanted_chars = "\n\t\r\v\f\b\a\0\x1b\x00\x1f\x7f\x1c\x1d\x1e"
@@ -18,5 +19,7 @@ async def get_summary(url: str):
         summary = " ".join(summary.split())
         summary = summary.strip()
         return summary
+    except asyncio.TimeoutError:
+        raise HTTPException(status_code=504, detail="Request timed out")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

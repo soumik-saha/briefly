@@ -38,4 +38,11 @@ out/
 
 
 ### Enviroment Variables ###
+<<<<<<< HEAD
 .env
+=======
+.env
+
+### application.properties ###
+application.properties
+>>>>>>> 17c85cc4d83eaa316f576cbea3adbf53ec82e44a
