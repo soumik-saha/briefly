@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./css/styles.css";
 
-const History = () => {
+const History = ({ toggleView }) => {
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
@@ -27,6 +27,9 @@ const History = () => {
 
   return (
     <>
+      <button onClick={toggleView} className="toggle-button">
+        Summarize Website
+      </button>
       <h1>History</h1>
       <p>View your past summaries here.</p>
       <div className="history">

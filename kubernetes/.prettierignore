@@ -1,0 +1,10 @@
+# Ignore Helm chart directories
+helm/**/charts/
+helm/**/templates/
+
+# Ignore specific files
+helm/**/values.yaml
+helm/**/Chart.yaml
+
+# Ignore all YAML files in the kubernetes directory
+*.yaml

@@ -1,0 +1,29 @@
+# prettier-ignore
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  # prettier-ignore
+  name: {{ .Chart.Name }}
+  labels:
+    # prettier-ignore
+    app: {{ .Chart.Name }}
+spec:
+  # prettier-ignore
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      # prettier-ignore
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        # prettier-ignore
+        app: {{ .Chart.Name }}
+    spec:
+      containers:
+        - # prettier-ignore
+          name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - # prettier-ignore
+              containerPort: {{ .Values.service.port }}

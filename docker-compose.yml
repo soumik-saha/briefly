@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "9495:9495"
+    environment:
+      - DB_URL=${DB_URL}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - API_URL_BASE=http://fastapi-llm:8000
+    depends_on:
+      - fastapi-llm
+
+  fastapi-llm:
+    build: ./fastapi-llm
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./fastapi-llm/.env # Explicitly specify the .env file
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"
+    environment:
+      - REACT_APP_API_URL=http://backend:9495
+    depends_on:
+      - backend
