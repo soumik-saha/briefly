@@ -1,0 +1,7 @@
+global:
+  storageClass: "standard"
+
+postgresql:
+  username: postgres
+  password: root
+  database: brieflydb

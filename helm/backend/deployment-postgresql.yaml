@@ -1,0 +1,41 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: postgresql
+#   namespace: database
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: postgresql
+#   template:
+#     metadata:
+#       labels:
+#         app: postgresql
+#     spec:
+#       containers:
+#       - name: postgresql
+#         image: postgres:latest
+#         ports:
+#         - containerPort: 5432
+#         env:
+#         - name: POSTGRES_DB
+#           value: "brieflydb"
+#         - name: POSTGRES_USER
+#           value: "postgres"
+#         - name: POSTGRES_PASSWORD
+#           value: "root"
+#         - name: POSTGRES_INITDB_ARGS
+#           value: "-f /docker-entrypoint-initdb.d/init.sql"
+#         volumeMounts:
+#         - mountPath: /var/lib/postgresql/data
+#           name: postgredb-storage
+#         - mountPath: /docker-entrypoint-initdb.d
+#           name: init-scripts
+#       volumes:
+#       - name: postgredb-storage
+#         persistentVolumeClaim:
+#           claimName: data-postgresql-0
+#       - name: init-scripts
+#         configMap:
+#           name: postgresql-init-scripts

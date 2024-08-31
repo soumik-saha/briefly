@@ -12,6 +12,7 @@ object DatabaseService {
   private val url = dotenv.get("DB_URL")
   private val username = dotenv.get("DB_USERNAME")
   private val password = dotenv.get("DB_PASSWORD")
+  println("Username: " + username + " Password: " + password + " URL: " + url)
 
   private def connect(): Connection = {
     DriverManager.getConnection(url, username, password)

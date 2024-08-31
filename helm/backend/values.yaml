@@ -1,0 +1,68 @@
+replicaCount: 1
+
+image:
+  repository: edgeofsoumik/briefly-backend
+  tag: 0.0.1.RELEASE
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 9495
+
+env:
+  - name: DB_URL
+    value: "jdbc:postgresql://postgresql:5432/brieflydb"
+  - name: DB_USERNAME
+    value: "postgres"
+  - name: DB_PASSWORD
+    value: "root"
+  - name: API_URL_BASE
+    value: "http://fastapi-llm:8000"
+
+resources: {}
+
+serviceAccount:
+  create: true
+  name: ""
+  automount: true
+  annotations: {}
+
+ingress:
+  enabled: false
+  annotations: {}
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+global:
+  storageClass: standard
+postgresql:
+  username: postgres
+  password: root
+  database: brieflydb
+# postgresql:
+#   enabled: true
+#   postgresqlUsername: postgres
+#   postgresqlPassword: root
+#   postgresqlDatabase: brieflydb
+#   service:
+#     port: 5432
+
+# postgresql:
+#   password: admin  # Set your PostgreSQL password here
+#   username: admin  # Set your PostgreSQL username here
+#   database: mydb  # Set your PostgreSQL database name here
+
+# persistence:
+#   enabled: true
+#   storageClass: "standard"  # Use the default storage class or specify another if you have one
+#   size: 8Gi  # Set the size of the persistent volume

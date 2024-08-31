@@ -1,5 +1,0 @@
-apiVersion: v2
-name: fastapi-llm
-description: A Helm chart for the fastapi-llm
-version: 1.0.0
-appVersion: "1.0.0"

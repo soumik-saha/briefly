@@ -1,0 +1,32 @@
+replicaCount: 1
+image:
+  repository: edgeofsoumik/briefly-frontend
+  tag: 0.0.2.RELEASE
+  pullPolicy: IfNotPresent
+service:
+  type: ClusterIP
+  port: 80
+env:
+  - name: REACT_APP_API_URL
+    value: "http://backend:9495"
+resources: {}
+serviceAccount:
+  create: true
+  name: ""
+  automount: true
+  annotations: {}
+ingress:
+  enabled: false
+  annotations: {}
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80

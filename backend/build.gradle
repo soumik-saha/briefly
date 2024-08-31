@@ -87,3 +87,8 @@ compileScala {
             '-feature',
     ]
 }
+
+bootJar {
+    mainClass = 'com.soumik.backend.BackendApplication'
+    launchScript()
+}
