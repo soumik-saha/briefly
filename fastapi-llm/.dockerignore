@@ -1,6 +1,10 @@
 __pycache__
 build
 dist
+<<<<<<< HEAD
+.env
+=======
+>>>>>>> 17c85cc4d83eaa316f576cbea3adbf53ec82e44a
 .git
 .vscode
 .idea
